@@ -9,7 +9,7 @@ beforeAll(() => server.listen());
 afterAll(() => server.close());
 afterEach(() => server.resetHandlers());
 
-describe('successful', () => {
+describe('projects', () => {
   describe('fetch a project', () => {
     it('should fetch project by id: a', async () => {
       testRender(<Project projectId={'a'}></Project>);
