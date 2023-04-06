@@ -7,7 +7,7 @@ type Props = {
 export default function ItemComponent({ item }: Props) {
   return (
     <>
-      <div className='box' data-testid={'item'}>
+      <div className={'box'} data-testid={'item'}>
         {item.name} - {item.price}
       </div>
     </>

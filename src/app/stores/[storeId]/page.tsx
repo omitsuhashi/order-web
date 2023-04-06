@@ -30,8 +30,8 @@ export default function OrderIndex({ params, searchParams }: Args) {
   ));
   return (
     <>
-      <p>storeId: {params.storeId}</p>
-      <p>sid: {searchParams.sid}</p>
+      <div>storeId: {params.storeId}</div>
+      <div>sid: {searchParams.sid}</div>
       {items}
     </>
   );
