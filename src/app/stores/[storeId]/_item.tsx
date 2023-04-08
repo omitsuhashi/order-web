@@ -1,12 +1,14 @@
 import { FetchItemDaoModel } from '@/dao/order';
-import { useState } from 'react';
+import { PropsWithoutRef, useState } from 'react';
 
 type Props = {
   item: FetchItemDaoModel;
 };
 
-export default function ItemComponent({ item }: Props) {
-  const [quantity, _] = useState(1);
+export default function ItemComponent({ item }: PropsWithoutRef<Props>) {
+  const [quantity, setQuantity] = useState(1);
+  const onChangeQuantity = (value: HTMLInputElement) =>
+    setQuantity(value.valueAsNumber);
   return (
     <>
       <div className='media' data-testid={'item'}>
@@ -16,7 +18,12 @@ export default function ItemComponent({ item }: Props) {
           <p className='subtitle is-6'>desc</p>
         </div>
         <div className='media-right'>
-          <input className={'input'} type='text' value={quantity} />
+          <input
+            className={'input'}
+            type='text'
+            value={quantity}
+            onChange={onChangeQuantity}
+          />
           <button className='button is-primary'>カートに入れる</button>
         </div>
       </div>
