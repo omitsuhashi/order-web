@@ -3,7 +3,7 @@ import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { screen } from '@testing-library/react';
 import testRender from '@/libs/jest';
 import '@testing-library/jest-dom';
-import { server } from '@/mocks/api';
+import { server } from '@/mocks/server';
 
 beforeAll(() => server.listen());
 afterAll(() => server.close());
