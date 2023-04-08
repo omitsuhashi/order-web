@@ -2,10 +2,10 @@
 
 import { PropsWithChildren } from 'react';
 import SwrSession from '@/libs/swr';
-import { worker } from '@/mocks/browser';
+import runMock from '@/mocks';
 
 if (process.env.NODE_ENV === 'development') {
-  worker.start().then();
+  runMock();
 }
 
 export default function OrderLayout(props: PropsWithChildren) {
