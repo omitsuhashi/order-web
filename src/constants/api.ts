@@ -1,13 +1,15 @@
+const BASE = '/api';
+
 export const TASK_API = {
-  getById: (taskId: string) => `/tasks/${taskId}`,
-  getAll: '/tasks',
+  getById: (taskId: string) => `${BASE}/tasks/${taskId}`,
+  getAll: `${BASE}/tasks`,
 };
 
 export const PROJECT_API = {
-  getAll: '/projects',
-  getById: (projectId: string) => `/projects/${projectId}`,
+  getAll: `${BASE}/projects`,
+  getById: (projectId: string) => `${BASE}/projects/${projectId}`,
 };
 
 export const STORE_API = {
-  getAll: (storeId: string) => `/stores/${storeId}`,
+  getAll: (storeId: string) => `${BASE}/stores/${storeId}`,
 };

@@ -2,7 +2,7 @@ import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { screen } from '@testing-library/react';
 import testRender from '@/libs/jest';
 import '@testing-library/jest-dom';
-import { server } from '@/mocks/api';
+import { server } from '@/mocks/server';
 import OrderIndex from '@/app/stores/[storeId]/page';
 
 beforeAll(() => server.listen());

@@ -4,12 +4,12 @@ import { SWRConfiguration, SWRConfig } from 'swr';
 
 type BBSwrConfigProps = { config?: SWRConfiguration };
 
-const BBSwrConfig = (props: PropsWithChildren<BBSwrConfigProps>) => {
+const SwrSession = (value: PropsWithChildren<BBSwrConfigProps>) => {
   const _config: SWRConfiguration = {
-    ...props.config,
+    ...value.config,
     fetcher,
   };
-  return <SWRConfig value={_config}>{props.children}</SWRConfig>;
+  return <SWRConfig value={_config}>{value.children}</SWRConfig>;
 };
 
 export const TestSwrConfig = (props: PropsWithChildren) => {
@@ -18,7 +18,7 @@ export const TestSwrConfig = (props: PropsWithChildren) => {
       value={{
         dedupingInterval: 0,
         provider: () => new Map(),
-        fetcher: fetcher,
+        fetcher,
       }}
     >
       {props.children}
@@ -26,4 +26,4 @@ export const TestSwrConfig = (props: PropsWithChildren) => {
   );
 };
 
-export default BBSwrConfig;
+export default SwrSession;
