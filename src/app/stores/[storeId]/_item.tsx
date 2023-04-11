@@ -1,30 +1,28 @@
 import { FetchItemDaoModel } from '@/dao/order';
-import { PropsWithoutRef, useState } from 'react';
+import { PropsWithoutRef } from 'react';
+import Image from 'next/image';
 
 type Props = {
   item: FetchItemDaoModel;
 };
 
 export default function ItemComponent({ item }: PropsWithoutRef<Props>) {
-  const [quantity, setQuantity] = useState(1);
-  const onChangeQuantity = (value: HTMLInputElement) =>
-    setQuantity(value.valueAsNumber);
   return (
     <>
-      <div className='media' data-testid={'item'}>
-        <div className='media-left'>fig</div>
-        <div className='media-content'>
-          <p className='title is-4'>{item.name}</p>
-          <p className='subtitle is-6'>desc</p>
+      <div data-testid={'item'}>
+        <div>
+          <figure>
+            <Image
+              src='https://bulma.io/images/placeholders/128x128.png'
+              alt='not found'
+              width={140}
+              height={140}
+            />
+          </figure>
         </div>
-        <div className='media-right'>
-          <input
-            className={'input'}
-            type='text'
-            value={quantity}
-            onChange={onChangeQuantity}
-          />
-          <button className='button is-primary'>カートに入れる</button>
+        <div>
+          <p className='title is-6'>{item.name}</p>
+          <p className='subtitle is-6'>{item.price}</p>
         </div>
       </div>
     </>
