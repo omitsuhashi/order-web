@@ -1,6 +1,7 @@
 import { rest } from 'msw';
 import { STORE_API } from '@/constants/api';
 import { FetchItemDaoModel } from '@/dao/order';
+import { generateRandomNumber, generateRandomString } from '@/mocks/api/util';
 
 const orderMocks = [
   rest.get(STORE_API.getAll('mock'), (req, res, context) => {
@@ -18,6 +19,15 @@ const orderMocks = [
         price: 500,
       },
     ];
+    return res(context.json(result));
+  }),
+  rest.get(STORE_API.getAll('10'), (req, res, context) => {
+    const result = Array.from({ length: 10 }).map((): FetchItemDaoModel => {
+      return {
+        name: generateRandomString(5),
+        price: generateRandomNumber(10000),
+      };
+    });
     return res(context.json(result));
   }),
 ];

@@ -27,13 +27,16 @@ export default function OrderIndex({ params }: Args) {
   if (!data) return <p>Loading</p>;
 
   const items = data.map((item, idx) => (
-    <div className={`column ${styles.item}`} key={idx}>
+    <div
+      className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
+      key={idx}
+    >
       <ItemComponent item={item} />
     </div>
   ));
   return (
     <>
-      <div className={`columns is-variable is-1-mobile ${styles.container}`}>
+      <div className={`columns is-multiline is-centered is-mobile mt-2`}>
         {items}
       </div>
     </>
