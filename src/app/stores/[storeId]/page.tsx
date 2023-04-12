@@ -45,6 +45,12 @@ export default function OrderIndex({ params }: Args) {
       </div>
       <Modal isActive={item !== undefined} onClose={() => setItem(undefined)}>
         {item ? <p>{item.name}</p> : <p>unexpect error</p>}
+        <div className={styles.inputNumber}>
+          <span>+</span>
+          <input className='input' type='text' placeholder='個数' />
+          <span>-</span>
+        </div>
+        <button className='button is-outlined'>カートに入れる</button>
       </Modal>
     </>
   );

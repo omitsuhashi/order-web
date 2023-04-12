@@ -4,3 +4,14 @@
 .item {
   width: 45vw;
 }
+
+.inputNumber {
+  > input, > span {
+    display: inline-block;
+  }
+
+  > input {
+    width: 5em;
+    text-align: center;
+  }
+}
