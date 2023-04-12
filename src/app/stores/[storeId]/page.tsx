@@ -5,6 +5,8 @@ import { FetchItemDaoModel } from '@/dao/order';
 import { STORE_API } from '@/constants/api';
 import ItemComponent from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
+import Modal from '@/components/modal';
+import { useState } from 'react';
 
 type Params = {
   storeId: string;
@@ -20,6 +22,7 @@ type Args = {
 };
 
 export default function OrderIndex({ params }: Args) {
+  const [item, setItem] = useState<FetchItemDaoModel>();
   const { data, error } = useSWR<Array<FetchItemDaoModel>>(
     STORE_API.getAll(params.storeId),
   );
@@ -30,6 +33,7 @@ export default function OrderIndex({ params }: Args) {
     <div
       className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
       key={idx}
+      onClick={() => setItem(item)}
     >
       <ItemComponent item={item} />
     </div>
@@ -39,6 +43,9 @@ export default function OrderIndex({ params }: Args) {
       <div className={`columns is-multiline is-centered is-mobile mt-2`}>
         {items}
       </div>
+      <Modal isActive={item !== undefined} onClose={() => setItem(undefined)}>
+        {item ? <p>{item.name}</p> : <p>unexpect error</p>}
+      </Modal>
     </>
   );
 }
