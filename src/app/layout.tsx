@@ -1,4 +1,5 @@
 import './globals.css';
+import Script from 'next/script';
 
 export const metadata = {
   title: 'Create Next App',
@@ -13,6 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang='ja'>
+      <Script
+        src={'https://kit.fontawesome.com/856e70b319.js'}
+        crossOrigin='anonymous'
+      />
       <body>{children}</body>
     </html>
   );
