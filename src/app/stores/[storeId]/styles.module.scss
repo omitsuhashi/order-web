@@ -11,3 +11,15 @@
     text-align: center;
   }
 }
+
+.cartIcon {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  z-index: 2;
+  border-radius: 50%;
+
+  > i {
+    opacity: 50%;
+  }
+}

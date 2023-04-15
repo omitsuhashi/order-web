@@ -69,6 +69,12 @@ export default function OrderIndex({ params }: Args) {
         {items}
       </div>
 
+      <span
+        className={`icon is-large has-background-link-light ${styles.cartIcon}`}
+      >
+        <i className='fas fa-lg fa-regular fa-cart-shopping has-text-link-dark'></i>
+      </span>
+
       <Modal isActive={item !== undefined} onClose={onCloseModal}>
         {item ? <p>{item.name}</p> : <p>unexpect error</p>}
         <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
