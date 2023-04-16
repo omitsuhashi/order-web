@@ -7,6 +7,8 @@ import ItemComponent from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
 import Modal from '@/components/modal';
 import { useState } from 'react';
+import axiosInstance from '@/libs/axios';
+import axios from 'axios';
 
 type Params = {
   storeId: string;
@@ -26,6 +28,7 @@ export default function OrderIndex({ params }: Args) {
   const [quantity, setQuantity] = useState<number>(1);
   const [cart, setCart] = useState<Map<number, number>>(new Map());
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
 
   const onClickItem = (item: FetchItemDaoModel) => {
     setItem(item);
@@ -35,7 +38,20 @@ export default function OrderIndex({ params }: Args) {
     setQuantity(_quantity ?? 1);
   };
 
-  const onCloseModal = () => {
+  const onClickOrder = async () => {
+    // カートのアイテムを送る
+    try {
+      const payload = Object.fromEntries(cart);
+      await axiosInstance.post(STORE_API.order(params.storeId), payload);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+      } else {
+        throw Error('unknown error');
+      }
+    }
+  };
+
+  const onCloseOrderDetailModal = () => {
     setItem(undefined);
   };
 
@@ -45,7 +61,7 @@ export default function OrderIndex({ params }: Args) {
     } else {
       throw new ReferenceError('unselectable item');
     }
-    onCloseModal();
+    onCloseOrderDetailModal();
   };
 
   const { data, error } = useSWR<Array<FetchItemDaoModel>>(
@@ -71,11 +87,13 @@ export default function OrderIndex({ params }: Args) {
 
       <span
         className={`icon is-large has-background-link-light ${styles.cartIcon}`}
+        onClick={() => setOpenOrderModal(true)}
       >
         <i className='fas fa-lg fa-regular fa-cart-shopping has-text-link-dark'></i>
       </span>
 
-      <Modal isActive={item !== undefined} onClose={onCloseModal}>
+      {/* 詳細オーダーモーダル */}
+      <Modal isActive={item !== undefined} onClose={onCloseOrderDetailModal}>
         {item ? <p>{item.name}</p> : <p>unexpect error</p>}
         <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
           <span
@@ -98,6 +116,12 @@ export default function OrderIndex({ params }: Args) {
         </div>
         <button className='button is-outlined' onClick={onClickCart}>
           {isEdit ? 'カートを更新' : 'カートに入れる'}
+        </button>
+      </Modal>
+      {/* オーダーモーダル */}
+      <Modal isActive={openOrderModal} onClose={() => setOpenOrderModal(false)}>
+        <button className='button is-outlined' onClick={onClickOrder}>
+          オーダー
         </button>
       </Modal>
     </>

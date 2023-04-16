@@ -36,6 +36,12 @@ const orderMocks = [
     );
     return res(context.json(result));
   }),
+  rest.post(STORE_API.order('10'), (req, res, context) => {
+    return res(context.status(200), context.json(req));
+  }),
+  rest.post(STORE_API.order('error'), (req, res, context) => {
+    return res(context.status(400));
+  }),
 ];
 
 export default orderMocks;
