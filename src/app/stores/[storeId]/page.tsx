@@ -11,7 +11,7 @@ import axiosInstance from '@/libs/axios';
 import axios from 'axios';
 
 type Params = {
-  storeId: string;
+  storeId: string | number;
 };
 
 type SearchParams = {
@@ -93,7 +93,11 @@ export default function OrderIndex({ params }: Args) {
       </span>
 
       {/* 詳細オーダーモーダル */}
-      <Modal isActive={item !== undefined} onClose={onCloseOrderDetailModal}>
+      <Modal
+        isActive={item !== undefined}
+        onClose={onCloseOrderDetailModal}
+        testId='order-detail-modal'
+      >
         {item ? <p>{item.name}</p> : <p>unexpect error</p>}
         <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
           <span
@@ -118,8 +122,12 @@ export default function OrderIndex({ params }: Args) {
           {isEdit ? 'カートを更新' : 'カートに入れる'}
         </button>
       </Modal>
-      {/* オーダーモーダル */}
-      <Modal isActive={openOrderModal} onClose={() => setOpenOrderModal(false)}>
+      {/* カートモーダル */}
+      <Modal
+        isActive={openOrderModal}
+        onClose={() => setOpenOrderModal(false)}
+        testId='cart-modal'
+      >
         <button className='button is-outlined' onClick={onClickOrder}>
           オーダー
         </button>

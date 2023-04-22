@@ -11,6 +11,6 @@ export const PROJECT_API = {
 };
 
 export const STORE_API = {
-  getAll: (storeId: string) => `${BASE}/stores/${storeId}`,
-  order: (storeId: string) => `${BASE}/stores/${storeId}`,
+  getAll: (storeId: string | number) => `${BASE}/stores/${storeId}`,
+  order: (storeId: string | number) => `${BASE}/stores/${storeId}`,
 };
