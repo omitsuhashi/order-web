@@ -30,6 +30,7 @@ const orderMocks = [
         return {
           id: idx + 1,
           name: generateRandomString(5),
+          description: generateRandomString(100),
           price: generateRandomNumber(10000),
         };
       },

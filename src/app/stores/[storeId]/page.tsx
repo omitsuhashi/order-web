@@ -99,6 +99,7 @@ export default function OrderIndex({ params }: Args) {
         testId='order-detail-modal'
       >
         {item ? <p>{item.name}</p> : <p>unexpect error</p>}
+        <p>{item?.description}</p>
         <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
           <span
             className={'icon'}
