@@ -1,11 +1,11 @@
 import { rest } from 'msw';
 import { STORE_API } from '@/constants/api';
-import { FetchItemDaoModel } from '@/dao/order';
+import { FetchMenuItemDaoModel } from '@/dao/menu';
 import { generateRandomNumber, generateRandomString } from '@/mocks/api/util';
 
 const orderMocks = [
   rest.get(STORE_API.getAll('mock'), (req, res, context) => {
-    const result: Array<FetchItemDaoModel> = [
+    const result: Array<FetchMenuItemDaoModel> = [
       {
         id: 1,
         name: '青椒肉絲',
@@ -26,7 +26,7 @@ const orderMocks = [
   }),
   rest.get(STORE_API.getAll('10'), (req, res, context) => {
     const result = Array.from({ length: 10 }).map(
-      (_, idx): FetchItemDaoModel => {
+      (_, idx): FetchMenuItemDaoModel => {
         return {
           id: idx + 1,
           name: generateRandomString(5),

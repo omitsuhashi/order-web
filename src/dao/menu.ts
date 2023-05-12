@@ -1,4 +1,4 @@
-export interface FetchItemDaoModel {
+export interface FetchMenuItemDaoModel {
   id: number;
   name: string;
   description?: string;

@@ -1,7 +1,7 @@
 'use client';
 
 import useSWR from 'swr';
-import { FetchItemDaoModel } from '@/dao/order';
+import { FetchMenuItemDaoModel } from '@/dao/menu';
 import { STORE_API } from '@/constants/api';
 import ItemComponent from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
@@ -9,6 +9,8 @@ import Modal from '@/components/modal';
 import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import cartState from '@/stores/cart';
 
 type Params = {
   storeId: string | number;
@@ -24,13 +26,13 @@ type Args = {
 };
 
 export default function OrderIndex({ params }: Args) {
-  const [item, setItem] = useState<FetchItemDaoModel>();
+  const [item, setItem] = useState<FetchMenuItemDaoModel>();
   const [quantity, setQuantity] = useState<number>(1);
-  const [cart, setCart] = useState<Map<number, number>>(new Map());
+  const [cart, setCart] = useRecoilState(cartState);
   const [isEdit, setIsEdit] = useState<boolean>(false);
   const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
 
-  const onClickItem = (item: FetchItemDaoModel) => {
+  const onClickItem = (item: FetchMenuItemDaoModel) => {
     setItem(item);
     const _quantity = cart.get(item.id);
     const _isEdit = _quantity !== undefined;
@@ -64,7 +66,7 @@ export default function OrderIndex({ params }: Args) {
     onCloseOrderDetailModal();
   };
 
-  const { data, error } = useSWR<Array<FetchItemDaoModel>>(
+  const { data, error } = useSWR<Array<FetchMenuItemDaoModel>>(
     STORE_API.getAll(params.storeId),
   );
   if (error) return <p>Error</p>;

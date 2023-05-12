@@ -1,9 +1,9 @@
-import { FetchItemDaoModel } from '@/dao/order';
+import { FetchMenuItemDaoModel } from '@/dao/menu';
 import { PropsWithoutRef } from 'react';
 import Image from 'next/image';
 
 type Props = {
-  item: FetchItemDaoModel;
+  item: FetchMenuItemDaoModel;
 };
 
 export default function ItemComponent({ item }: PropsWithoutRef<Props>) {
