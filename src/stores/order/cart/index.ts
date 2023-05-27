@@ -1,7 +1,7 @@
 import { atom, selector } from 'recoil';
-import OrderStateKey from '@/store/order/keys';
-import { CartType, MenuItemType } from '@/store/order/types';
-import { MenuItemState } from '@/store/order/menu';
+import OrderStateKey from '@/stores/order/keys';
+import { CartType, MenuItemType } from '@/stores/order/types';
+import { MenuItemState } from '@/stores/order/menu';
 
 const CartState = atom<Array<CartType>>({
   key: OrderStateKey.CART_STATE,
