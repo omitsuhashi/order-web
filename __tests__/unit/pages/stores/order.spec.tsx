@@ -20,7 +20,7 @@ describe('order', () => {
     });
   });
   describe('order items', () => {
-    it('should open item modal and add cart', async () => {
+    it('should open menu modal and add cart', async () => {
       testRender(<OrderIndex params={{ storeId: 10 }} searchParams={{}} />);
       await waitForElementToBeRemoved(() => screen.queryByText('Loading'));
 

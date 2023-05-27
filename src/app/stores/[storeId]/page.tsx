@@ -61,7 +61,7 @@ export default function OrderIndex({ params }: Args) {
     if (item?.id !== undefined && quantity >= 0) {
       setCart((prevState) => prevState.set(item.id, quantity));
     } else {
-      throw new ReferenceError('unselectable item');
+      throw new ReferenceError('unselectable menu');
     }
     onCloseOrderDetailModal();
   };
