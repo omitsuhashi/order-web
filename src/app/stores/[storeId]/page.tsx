@@ -1,7 +1,6 @@
 'use client';
 
 import useSWR from 'swr';
-import { FetchMenuItemDaoModel } from '@/dao/menu';
 import { STORE_API } from '@/constants/api';
 import ItemComponent from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
@@ -10,7 +9,8 @@ import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import axios from 'axios';
 import { useRecoilState } from 'recoil';
-import cartState from '@/stores/cart';
+import { CartState } from '@/stores/order/cart';
+import { MenuItemType } from '@/stores/order/types';
 
 type Params = {
   storeId: string | number;
@@ -26,24 +26,20 @@ type Args = {
 };
 
 export default function OrderIndex({ params }: Args) {
-  const [item, setItem] = useState<FetchMenuItemDaoModel>();
   const [quantity, setQuantity] = useState<number>(1);
-  const [cart, setCart] = useRecoilState(cartState);
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const [isEdit] = useState<boolean>(false);
   const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
+  const [detailItem, setDetailItem] = useState<MenuItemType>();
+  const [cart] = useRecoilState(CartState);
 
-  const onClickItem = (item: FetchMenuItemDaoModel) => {
-    setItem(item);
-    const _quantity = cart.get(item.id);
-    const _isEdit = _quantity !== undefined;
-    setIsEdit(_isEdit);
-    setQuantity(_quantity ?? 1);
+  const onClickItem = (item: MenuItemType) => {
+    setDetailItem(item);
   };
 
   const onClickOrder = async () => {
     // カートのアイテムを送る
     try {
-      const payload = Object.fromEntries(cart);
+      const payload = cart.map((v) => v.menuId);
       await axiosInstance.post(STORE_API.order(params.storeId), payload);
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -53,20 +49,13 @@ export default function OrderIndex({ params }: Args) {
     }
   };
 
-  const onCloseOrderDetailModal = () => {
-    setItem(undefined);
-  };
+  const onCloseOrderDetailModal = () => {};
 
   const onClickCart = () => {
-    if (item?.id !== undefined && quantity >= 0) {
-      setCart((prevState) => prevState.set(item.id, quantity));
-    } else {
-      throw new ReferenceError('unselectable menu');
-    }
     onCloseOrderDetailModal();
   };
 
-  const { data, error } = useSWR<Array<FetchMenuItemDaoModel>>(
+  const { data, error } = useSWR<Array<MenuItemType>>(
     STORE_API.getAll(params.storeId),
   );
   if (error) return <p>Error</p>;
@@ -96,12 +85,12 @@ export default function OrderIndex({ params }: Args) {
 
       {/* 詳細オーダーモーダル */}
       <Modal
-        isActive={item !== undefined}
+        isActive={detailItem !== undefined}
         onClose={onCloseOrderDetailModal}
         testId='order-detail-modal'
       >
-        {item ? <p>{item.name}</p> : <p>unexpect error</p>}
-        <p>{item?.description}</p>
+        <p>{detailItem?.name}</p>
+        <p>{detailItem?.description}</p>
         <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
           <span
             className={'icon'}
