@@ -8,7 +8,7 @@ import Modal from '@/components/modal';
 import { useState } from 'react';
 import axiosInstance from '@/libs/axios';
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import { CartState } from '@/stores/order/cart';
 import { MenuItemType } from '@/stores/order/types';
 
@@ -31,6 +31,7 @@ export default function OrderIndex({ params }: Args) {
   const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
   const [detailItem, setDetailItem] = useState<MenuItemType>();
   const [cart] = useRecoilState(CartState);
+  const resetCart = useResetRecoilState(CartState);
 
   const onClickItem = (item: MenuItemType) => {
     setDetailItem(item);
@@ -41,15 +42,19 @@ export default function OrderIndex({ params }: Args) {
     try {
       const payload = cart.map((v) => v.menuId);
       await axiosInstance.post(STORE_API.order(params.storeId), payload);
+      setOpenOrderModal(false);
+      resetCart();
     } catch (e) {
       if (axios.isAxiosError(e)) {
       } else {
-        throw Error('unknown error');
+        throw Error('unexpected error');
       }
     }
   };
 
-  const onCloseOrderDetailModal = () => {};
+  const onCloseOrderDetailModal = () => {
+    setDetailItem(undefined);
+  };
 
   const onClickCart = () => {
     onCloseOrderDetailModal();
