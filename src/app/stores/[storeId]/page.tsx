@@ -10,7 +10,7 @@ import axiosInstance from '@/libs/axios';
 import axios from 'axios';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { CartState } from '@/stores/order/cart';
-import { MenuItemType } from '@/stores/order/types';
+import { CartItemType, MenuItemType } from '@/stores/order/types';
 
 type Params = {
   storeId: string | number;
@@ -27,21 +27,22 @@ type Args = {
 
 export default function OrderIndex({ params }: Args) {
   const [quantity, setQuantity] = useState<number>(1);
-  const [isEdit] = useState<boolean>(false);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
   const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
   const [detailItem, setDetailItem] = useState<MenuItemType>();
   const [cart, setCart] = useRecoilState(CartState);
   const resetCart = useResetRecoilState(CartState);
 
-  const onClickItem = (item: MenuItemType) => {
-    setDetailItem(item);
-  };
+  const { data, error } = useSWR<Array<MenuItemType>>(
+    STORE_API.getAll(params.storeId),
+  );
+  if (error) return <p>Error</p>;
+  if (!data) return <p>Loading</p>;
 
   const onClickOrder = async () => {
     // カートのアイテムを送る
     try {
-      const payload = cart.map((v) => v.menuId);
-      await axiosInstance.post(STORE_API.order(params.storeId), payload);
+      await axiosInstance.post(STORE_API.order(params.storeId), cart);
       setOpenOrderModal(false);
       resetCart();
     } catch (e) {
@@ -56,28 +57,40 @@ export default function OrderIndex({ params }: Args) {
     setDetailItem(undefined);
   };
 
-  const onClickCart = (item?: MenuItemType) => {
-    if (item) {
-      setCart((currVal) => currVal);
+  const onClickUpdateCart = () => {
+    if (detailItem) {
+      const item: CartItemType = {
+        menuId: detailItem.id,
+        quantity,
+      };
+      setCart((currVal) => [...currVal, item]);
       onCloseOrderDetailModal();
     }
   };
 
-  const { data, error } = useSWR<Array<MenuItemType>>(
-    STORE_API.getAll(params.storeId),
-  );
-  if (error) return <p>Error</p>;
-  if (!data) return <p>Loading</p>;
+  const items = data.map((item, idx) => {
+    const onClickItem = () => {
+      const cartItem = cart.find((v) => v.menuId === item.id);
+      if (cartItem) {
+        setQuantity(cartItem.quantity);
+        setIsEdit(true);
+      } else {
+        setQuantity(1);
+        setIsEdit(false);
+      }
+      setDetailItem(item);
+    };
+    return (
+      <div
+        className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
+        key={idx}
+        onClick={onClickItem}
+      >
+        <ItemComponent item={item} />
+      </div>
+    );
+  });
 
-  const items = data.map((item, idx) => (
-    <div
-      className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
-      key={idx}
-      onClick={() => onClickItem(item)}
-    >
-      <ItemComponent item={item} />
-    </div>
-  ));
   return (
     <>
       <div className={`columns is-multiline is-centered is-mobile mt-2`}>
@@ -118,10 +131,7 @@ export default function OrderIndex({ params }: Args) {
             <i className='fas fa-lg fa-regular fa-circle-plus'></i>
           </span>
         </div>
-        <button
-          className='button is-outlined'
-          onClick={() => onClickCart(detailItem)}
-        >
+        <button className='button is-outlined' onClick={onClickUpdateCart}>
           {isEdit ? 'カートを更新' : 'カートに入れる'}
         </button>
       </Modal>
