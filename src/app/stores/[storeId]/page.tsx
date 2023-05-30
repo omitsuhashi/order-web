@@ -30,7 +30,7 @@ export default function OrderIndex({ params }: Args) {
   const [isEdit] = useState<boolean>(false);
   const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
   const [detailItem, setDetailItem] = useState<MenuItemType>();
-  const [cart] = useRecoilState(CartState);
+  const [cart, setCart] = useRecoilState(CartState);
   const resetCart = useResetRecoilState(CartState);
 
   const onClickItem = (item: MenuItemType) => {
@@ -56,8 +56,11 @@ export default function OrderIndex({ params }: Args) {
     setDetailItem(undefined);
   };
 
-  const onClickCart = () => {
-    onCloseOrderDetailModal();
+  const onClickCart = (item?: MenuItemType) => {
+    if (item) {
+      setCart((currVal) => currVal);
+      onCloseOrderDetailModal();
+    }
   };
 
   const { data, error } = useSWR<Array<MenuItemType>>(
@@ -115,10 +118,14 @@ export default function OrderIndex({ params }: Args) {
             <i className='fas fa-lg fa-regular fa-circle-plus'></i>
           </span>
         </div>
-        <button className='button is-outlined' onClick={onClickCart}>
+        <button
+          className='button is-outlined'
+          onClick={() => onClickCart(detailItem)}
+        >
           {isEdit ? 'カートを更新' : 'カートに入れる'}
         </button>
       </Modal>
+
       {/* カートモーダル */}
       <Modal
         isActive={openOrderModal}

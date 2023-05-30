@@ -1,11 +1,11 @@
 import { rest } from 'msw';
 import { STORE_API } from '@/constants/api';
-import { FetchMenuItemDaoModel } from '@/dao/menu';
 import { generateRandomNumber, generateRandomString } from '@/mocks/api/util';
+import { MenuItemType } from '@/stores/order/types';
 
 const orderMocks = [
   rest.get(STORE_API.getAll('mock'), (req, res, context) => {
-    const result: Array<FetchMenuItemDaoModel> = [
+    const result: Array<MenuItemType> = [
       {
         id: 1,
         name: '青椒肉絲',
@@ -25,16 +25,14 @@ const orderMocks = [
     return res(context.json(result));
   }),
   rest.get(STORE_API.getAll('10'), (req, res, context) => {
-    const result = Array.from({ length: 10 }).map(
-      (_, idx): FetchMenuItemDaoModel => {
-        return {
-          id: idx + 1,
-          name: generateRandomString(5),
-          description: generateRandomString(100),
-          price: generateRandomNumber(10000),
-        };
-      },
-    );
+    const result = Array.from({ length: 10 }).map((_, idx): MenuItemType => {
+      return {
+        id: idx + 1,
+        name: generateRandomString(5),
+        description: generateRandomString(100),
+        price: generateRandomNumber(10000),
+      };
+    });
     return res(context.json(result));
   }),
   rest.post(STORE_API.order('10'), (req, res, context) => {
