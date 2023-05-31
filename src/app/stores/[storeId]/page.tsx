@@ -143,6 +143,7 @@ export default function OrderIndex({ params }: Args) {
         onClose={() => setOpenOrderModal(false)}
         testId='cart-modal'
       >
+        {cart.map((c) => data.find((v) => v.id === c.menuId)?.name)}
         <button className='button is-outlined' onClick={onClickOrder}>
           オーダー
         </button>
