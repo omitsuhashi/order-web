@@ -1,7 +1,7 @@
 import Project from '@/app/projects/_project';
 import { waitForElementToBeRemoved } from '@testing-library/dom';
 import { screen } from '@testing-library/react';
-import testRender from '@/libs/jest';
+import testRender from '../../../jest';
 import '@testing-library/jest-dom';
 import { server } from '@/mocks/server';
 

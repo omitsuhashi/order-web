@@ -2,7 +2,7 @@
 
 import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
-import ItemComponent from '@/app/stores/[storeId]/_item';
+import MenuItemComponent from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
 import Modal from '@/components/modal';
 import { useState } from 'react';
@@ -11,6 +11,8 @@ import axios from 'axios';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import { CartState } from '@/stores/order/cart';
 import { CartItemType, MenuItemType } from '@/stores/order/types';
+import Loading from '@/components/loading';
+import { ORDER_TEST_ID } from '@/constants/testid/stores';
 
 type Params = {
   storeId: string | number;
@@ -28,7 +30,7 @@ type Args = {
 export default function OrderIndex({ params }: Args) {
   const [quantity, setQuantity] = useState<number>(1);
   const [isEdit, setIsEdit] = useState<boolean>(false);
-  const [openOrderModal, setOpenOrderModal] = useState<boolean>(false);
+  const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [detailItem, setDetailItem] = useState<MenuItemType>();
   const [cart, setCart] = useRecoilState(CartState);
   const resetCart = useResetRecoilState(CartState);
@@ -37,13 +39,13 @@ export default function OrderIndex({ params }: Args) {
     STORE_API.getAll(params.storeId),
   );
   if (error) return <p>Error</p>;
-  if (!data) return <p>Loading</p>;
+  if (!data) return <Loading />;
 
   const onClickOrder = async () => {
     // カートのアイテムを送る
     try {
       await axiosInstance.post(STORE_API.order(params.storeId), cart);
-      setOpenOrderModal(false);
+      setOpenCartModal(false);
       resetCart();
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -87,7 +89,7 @@ export default function OrderIndex({ params }: Args) {
         key={idx}
         onClick={() => onClickItem(item)}
       >
-        <ItemComponent item={item} />
+        <MenuItemComponent item={item} />
       </div>
     );
   });
@@ -100,16 +102,17 @@ export default function OrderIndex({ params }: Args) {
 
       <span
         className={`icon is-large has-background-link-light ${styles.cartIcon}`}
-        onClick={() => setOpenOrderModal(true)}
+        onClick={() => setOpenCartModal(true)}
+        data-testid={ORDER_TEST_ID.OPEN_CART_MODAL_BUTTON}
       >
         <i className='fas fa-lg fa-regular fa-cart-shopping has-text-link-dark'></i>
       </span>
 
-      {/* 詳細オーダーモーダル */}
+      {/* 商品詳細モーダル */}
       <Modal
         isActive={detailItem !== undefined}
         onClose={onCloseOrderDetailModal}
-        testId='order-detail-modal'
+        testId={ORDER_TEST_ID.MENU_ITEM_DETAIL_MODAL}
       >
         <p>{detailItem?.name}</p>
         <p>{detailItem?.description}</p>
@@ -118,6 +121,7 @@ export default function OrderIndex({ params }: Args) {
             className={'icon'}
             onClick={() => setQuantity(quantity - 1)}
             aria-disabled={quantity < 1}
+            data-testid={ORDER_TEST_ID.SUB_QUANTITY_BUTTON}
           >
             <i className='fas fa-lg fa-regular fa-circle-minus'></i>
           </span>
@@ -127,24 +131,37 @@ export default function OrderIndex({ params }: Args) {
             className='input mx-1'
             type='number'
             placeholder='個数'
+            data-testid={ORDER_TEST_ID.QUANTITY_INPUT}
           />
-          <span className={'icon'} onClick={() => setQuantity(quantity + 1)}>
+          <span
+            className={'icon'}
+            onClick={() => setQuantity(quantity + 1)}
+            data-testid={ORDER_TEST_ID.ADD_QUANTITY_BUTTON}
+          >
             <i className='fas fa-lg fa-regular fa-circle-plus'></i>
           </span>
         </div>
-        <button className='button is-outlined' onClick={onClickUpdateCart}>
+        <button
+          className='button is-outlined'
+          onClick={onClickUpdateCart}
+          data-testid={ORDER_TEST_ID.UPDATE_CART_BUTTON}
+        >
           {isEdit ? 'カートを更新' : 'カートに入れる'}
         </button>
       </Modal>
 
       {/* カートモーダル */}
       <Modal
-        isActive={openOrderModal}
-        onClose={() => setOpenOrderModal(false)}
-        testId='cart-modal'
+        isActive={openCartModal}
+        onClose={() => setOpenCartModal(false)}
+        testId={ORDER_TEST_ID.CART_MODAL}
       >
         {cart.map((c) => data.find((v) => v.id === c.menuId)?.name)}
-        <button className='button is-outlined' onClick={onClickOrder}>
+        <button
+          className='button is-outlined'
+          onClick={onClickOrder}
+          data-testid={ORDER_TEST_ID.ORDER_BUTTON}
+        >
           オーダー
         </button>
       </Modal>
