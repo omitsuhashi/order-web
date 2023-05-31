@@ -68,23 +68,24 @@ export default function OrderIndex({ params }: Args) {
     }
   };
 
+  const onClickItem = (item: MenuItemType) => {
+    const cartItem = cart.find((v) => v.menuId === item.id);
+    if (cartItem) {
+      setQuantity(cartItem.quantity);
+      setIsEdit(true);
+    } else {
+      setQuantity(1);
+      setIsEdit(false);
+    }
+    setDetailItem(item);
+  };
+
   const items = data.map((item, idx) => {
-    const onClickItem = () => {
-      const cartItem = cart.find((v) => v.menuId === item.id);
-      if (cartItem) {
-        setQuantity(cartItem.quantity);
-        setIsEdit(true);
-      } else {
-        setQuantity(1);
-        setIsEdit(false);
-      }
-      setDetailItem(item);
-    };
     return (
       <div
         className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
         key={idx}
-        onClick={onClickItem}
+        onClick={() => onClickItem(item)}
       >
         <ItemComponent item={item} />
       </div>
