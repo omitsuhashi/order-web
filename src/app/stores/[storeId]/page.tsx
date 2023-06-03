@@ -46,11 +46,11 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const items = data.map((item, idx) => {
     return (
       <div
-        className={`column is-two-fifths-mobile is-one-quarter-tablet ${styles.item}`}
+        className={`column is-half-mobile is-one-quarter-tablet ${styles.item}`}
         key={idx}
         onClick={() => onClickItem(item)}
       >
-        <MenuItemComponent item={item} />
+        <MenuItemComponent props={{ item }} />
       </div>
     );
   });

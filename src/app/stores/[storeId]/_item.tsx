@@ -7,23 +7,25 @@ type Props = {
   item: MenuItemType;
 };
 
-export default function MenuItemComponent({ item }: PropsWithoutRef<Props>) {
+type Args = {
+  props: Props;
+};
+
+export default function MenuItemComponent({ props }: PropsWithoutRef<Args>) {
   return (
     <>
-      <div data-testid={ORDER_TEST_ID.MENU_ITEM_COMPONENT}>
+      <div className={'box'} data-testid={ORDER_TEST_ID.MENU_ITEM_COMPONENT}>
+        <figure>
+          <Image
+            src='https://bulma.io/images/placeholders/128x128.png'
+            alt='not found'
+            width={140}
+            height={140}
+          />
+        </figure>
         <div>
-          <figure>
-            <Image
-              src='https://bulma.io/images/placeholders/128x128.png'
-              alt='not found'
-              width={140}
-              height={140}
-            />
-          </figure>
-        </div>
-        <div>
-          <p className='title is-6'>{item.name}</p>
-          <p className='subtitle is-6'>{item.price}</p>
+          <p className='title is-6'>{props.item.name}</p>
+          <p className='subtitle is-6'>{props.item.price}</p>
         </div>
       </div>
     </>
