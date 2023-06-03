@@ -1,6 +1,6 @@
 import { PropsWithoutRef } from 'react';
 import Image from 'next/image';
-import { MenuItemType } from '@/stores/order/types';
+import { MenuItemType } from '@/types/order';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 
 type Props = {
