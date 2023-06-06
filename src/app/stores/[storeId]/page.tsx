@@ -57,7 +57,9 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
 
   return (
     <>
-      <div className={`columns is-multiline is-centered is-mobile mt-2`}>
+      <div
+        className={`columns is-multiline is-centered is-mobile mt-2 ${styles.storeColumns}`}
+      >
         {items}
       </div>
 
