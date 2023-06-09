@@ -50,7 +50,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         key={idx}
         onClick={() => onClickItem(item)}
       >
-        <MenuItemComponent props={{ item }} />
+        <MenuItemComponent item={item} />
       </div>
     );
   });
@@ -79,7 +79,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       >
         {detailTarget ? (
           <MenuItemDetailComponent
-            props={{ menuItem: detailTarget }}
+            menuItem={detailTarget}
             onClickOrder={() => setDetailTarget(undefined)}
           />
         ) : (

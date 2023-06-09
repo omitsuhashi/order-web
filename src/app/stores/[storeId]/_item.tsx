@@ -7,11 +7,7 @@ type Props = {
   item: MenuItemType;
 };
 
-type Args = {
-  props: Props;
-};
-
-export default function MenuItemComponent({ props }: PropsWithoutRef<Args>) {
+export default function MenuItemComponent({ item }: PropsWithoutRef<Props>) {
   return (
     <>
       <div className={'box'} data-testid={ORDER_TEST_ID.MENU_ITEM_COMPONENT}>
@@ -24,8 +20,8 @@ export default function MenuItemComponent({ props }: PropsWithoutRef<Args>) {
           />
         </figure>
         <div>
-          <p className='title is-6'>{props.item.name}</p>
-          <p className='subtitle is-6'>{props.item.price}</p>
+          <p className='title is-6'>{item.name}</p>
+          <p className='subtitle is-6'>{item.price}</p>
         </div>
       </div>
     </>
