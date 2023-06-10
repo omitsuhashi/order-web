@@ -27,8 +27,9 @@ export default function MenuItemDetailComponent({
     if (isEdit) {
       setCart((currVal) => {
         const idx = currVal.indexOf(cartItem);
-        currVal[idx] = item;
-        return currVal;
+        const result = [...currVal];
+        result[idx] = item;
+        return result;
       });
     } else {
       setCart((currVal) => currVal.concat(item));
@@ -59,7 +60,7 @@ export default function MenuItemDetailComponent({
         textLabel='個数'
         options={options}
         onChange={onSelectQuantity}
-        defaultValue={1}
+        defaultValue={quantity}
       />
       <button
         className='button is-outlined'
