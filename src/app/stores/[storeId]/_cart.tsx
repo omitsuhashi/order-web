@@ -4,7 +4,7 @@ import axiosInstance from '@/libs/axios';
 import { STORE_API } from '@/constants/api';
 import axios from 'axios';
 import { StoreArgs } from '@/app/stores/[storeId]/page';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { CartState } from '@/stores/order/cart';
 
 type Props = {
@@ -16,7 +16,7 @@ type Args = {
 } & StoreArgs;
 
 export default function CartComponent({ params }: Args) {
-  const [cart] = useRecoilState(CartState);
+  const cart = useRecoilValue(CartState);
   // const items = cart.map(
   //   (c) => props.menuItems.find((v) => v.id === c.menuId)?.name,
   // );

@@ -1,28 +1,27 @@
-import styles from '@/app/stores/[storeId]/styles.module.scss';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import { CartItemType, MenuItemType } from '@/types/order';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CartSelector, CartState } from '@/stores/order/cart';
+import SelectComponent, { OptionType } from '@/components/select';
 
 type Props = {
   menuItem: MenuItemType;
-};
-
-type Args = {
-  props: Props;
   onClickOrder: () => void;
 };
 
-export default function MenuItemDetailComponent({ props, onClickOrder }: Args) {
+export default function MenuItemDetailComponent({
+  menuItem,
+  onClickOrder,
+}: Props) {
   const [, setCart] = useRecoilState(CartState);
-  const cartItem = useRecoilValue(CartSelector(props.menuItem.id));
+  const cartItem = useRecoilValue(CartSelector(menuItem.id));
   const [quantity, setQuantity] = useState(cartItem?.quantity ?? 1);
   const isEdit = cartItem !== undefined;
 
   const onClickUpdateCart = () => {
     const item: CartItemType = {
-      menuId: props.menuItem.id,
+      menuId: menuItem.id,
       quantity,
     };
     if (isEdit) {
@@ -37,35 +36,31 @@ export default function MenuItemDetailComponent({ props, onClickOrder }: Args) {
     onClickOrder();
   };
 
+  const onSelectQuantity = (ev: ChangeEvent<HTMLSelectElement>) => {
+    const quantity = Number(ev.target.value);
+    setQuantity(quantity);
+  };
+
+  const options: Array<OptionType<number>> = new Array(10)
+    .fill(0)
+    .map((value, index) => {
+      const idx = index + 1;
+      return {
+        label: idx.toString(),
+        value: idx,
+      };
+    });
+
   return (
     <>
-      <p>{props.menuItem.name}</p>
-      <p>{props.menuItem.description}</p>
-      <div className={`${styles.inputNumber} is-flex is-align-items-center`}>
-        <span
-          className={'icon'}
-          onClick={() => setQuantity(quantity - 1)}
-          aria-disabled={quantity < 1}
-          data-testid={ORDER_TEST_ID.SUB_QUANTITY_BUTTON}
-        >
-          <i className='fas fa-lg fa-regular fa-circle-minus'></i>
-        </span>
-        <input
-          value={quantity}
-          onChange={(ev) => setQuantity(Number(ev.target.value))}
-          className='input mx-1'
-          type='number'
-          placeholder='個数'
-          data-testid={ORDER_TEST_ID.QUANTITY_INPUT}
-        />
-        <span
-          className={'icon'}
-          onClick={() => setQuantity(quantity + 1)}
-          data-testid={ORDER_TEST_ID.ADD_QUANTITY_BUTTON}
-        >
-          <i className='fas fa-lg fa-regular fa-circle-plus'></i>
-        </span>
-      </div>
+      <p>{menuItem.name}</p>
+      <p>{menuItem.description}</p>
+      <SelectComponent<number>
+        textLabel='個数'
+        options={options}
+        onChange={onSelectQuantity}
+        defaultValue={1}
+      />
       <button
         className='button is-outlined'
         onClick={onClickUpdateCart}
