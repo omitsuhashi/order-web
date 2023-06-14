@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
 import MenuItem from '@/app/stores/[storeId]/_item';
-import styles from '@/app/stores/[storeId]/styles.module.scss';
+import styles from '@/styles/pages/store.module.scss';
 import Modal from '@/components/modal';
 import { useState } from 'react';
 import { MenuItemType } from '@/types/order';

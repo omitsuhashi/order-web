@@ -1,0 +1,8 @@
+@use '../globals';
+
+.drawer {
+  z-index: globals.$drawer-z-index
+}
+
+.lr {
+}

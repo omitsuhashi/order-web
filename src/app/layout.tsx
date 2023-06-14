@@ -1,4 +1,4 @@
-import './globals.css';
+import '../styles/globals.scss';
 import Script from 'next/script';
 
 export const metadata = {
