@@ -64,6 +64,13 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       </div>
 
       <span
+        className={`icon is-large has-background-link-light ${styles.menuIcon}`}
+        onClick={() => setOpenCartModal(true)}
+        data-testid={ORDER_TEST_ID.OPEN_CART_MODAL_BUTTON}
+      >
+        <i className='fas fa-lg fa-solid fa-bars has-text-link-dark'></i>
+      </span>
+      <span
         className={`icon is-large has-background-link-light ${styles.cartIcon}`}
         onClick={() => setOpenCartModal(true)}
         data-testid={ORDER_TEST_ID.OPEN_CART_MODAL_BUTTON}

@@ -7,8 +7,20 @@
 
 .cartIcon {
   position: fixed;
-  bottom: 2em;
-  right: 2em;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 2;
+  border-radius: 50%;
+
+  > i {
+    opacity: 50%;
+  }
+}
+
+.menuIcon {
+  position: fixed;
+  bottom: 5.5rem;
+  right: 2rem;
   z-index: 2;
   border-radius: 50%;
 
