@@ -15,7 +15,7 @@ type Args = {
   props: Props;
 } & StoreArgs;
 
-export default function CartComponent({ params }: Args) {
+export default function Cart({ params }: Args) {
   const cart = useRecoilValue(CartState);
   // const items = cart.map(
   //   (c) => props.menuItems.find((v) => v.id === c.menuId)?.name,

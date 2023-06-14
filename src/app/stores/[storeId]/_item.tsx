@@ -7,7 +7,7 @@ type Props = {
   item: MenuItemType;
 };
 
-export default function MenuItemComponent({ item }: PropsWithoutRef<Props>) {
+export default function MenuItem({ item }: PropsWithoutRef<Props>) {
   return (
     <>
       <div className={'box'} data-testid={ORDER_TEST_ID.MENU_ITEM_COMPONENT}>

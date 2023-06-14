@@ -12,7 +12,7 @@ type Props<T> = {
   defaultValue: T;
 };
 
-export default function SelectComponent<
+export default function Select<
   T extends string | number | readonly string[] | undefined,
 >({ textLabel, options, onChange, defaultValue }: Props<T>) {
   return (

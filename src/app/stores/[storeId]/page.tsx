@@ -2,15 +2,15 @@
 
 import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
-import MenuItemComponent from '@/app/stores/[storeId]/_item';
+import MenuItem from '@/app/stores/[storeId]/_item';
 import styles from '@/app/stores/[storeId]/styles.module.scss';
 import Modal from '@/components/modal';
 import { useState } from 'react';
 import { MenuItemType } from '@/types/order';
 import Loading from '@/components/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import MenuItemDetailComponent from '@/app/stores/[storeId]/_detail';
-import CartComponent from '@/app/stores/[storeId]/_cart';
+import MenuItemDetail from '@/app/stores/[storeId]/_detail';
+import Cart from '@/app/stores/[storeId]/_cart';
 
 type Params = {
   storeId: string | number;
@@ -50,7 +50,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         key={idx}
         onClick={() => onClickItem(item)}
       >
-        <MenuItemComponent item={item} />
+        <MenuItem item={item} />
       </div>
     );
   });
@@ -85,7 +85,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         testId={ORDER_TEST_ID.MENU_ITEM_DETAIL_MODAL}
       >
         {detailTarget ? (
-          <MenuItemDetailComponent
+          <MenuItemDetail
             menuItem={detailTarget}
             onClickOrder={() => setDetailTarget(undefined)}
           />
@@ -100,7 +100,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         onClose={() => setOpenCartModal(false)}
         testId={ORDER_TEST_ID.CART_MODAL}
       >
-        <CartComponent
+        <Cart
           props={{ menuItems: data }}
           params={params}
           searchParams={searchParams}
