@@ -1,12 +1,11 @@
 import { PropsWithChildren } from 'react';
-import styles from '../styles/components/drawer.module.scss';
+import styles from '@/styles/components/drawer.module.scss';
 
-type DirectionType = 'lr' | 'rl' | 'tb' | 'bt';
+type DirectionType = 'lr' | 'rl';
 
 type Props = {
-  direction: DirectionType;
+  direction?: DirectionType;
   width?: string | number;
-  height?: string | number;
 };
 
 export default function Drawer({
@@ -15,10 +14,13 @@ export default function Drawer({
 }: PropsWithChildren<Props>) {
   return (
     <>
-      <div
-        className={`${styles.drawer} ${direction === 'lr' ? styles.lr : ''}`}
-      >
-        {children}
+      <div className={`${styles.container}`}>
+        <input type='checkbox' className={`${styles.drawerActivator}`} />
+        <nav
+          className={`${styles.drawer} ${direction === 'lr' ? styles.lr : ''}`}
+        >
+          {children}
+        </nav>
       </div>
     </>
   );

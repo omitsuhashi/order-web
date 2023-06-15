@@ -11,6 +11,7 @@ import Loading from '@/components/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/app/stores/[storeId]/_detail';
 import Cart from '@/app/stores/[storeId]/_cart';
+import Drawer from '@/components/drawer';
 
 type Params = {
   storeId: string | number;
@@ -62,6 +63,10 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       >
         {items}
       </div>
+
+      <Drawer>
+        <span>test</span>
+      </Drawer>
 
       <span
         className={`icon is-large has-background-link-light ${styles.menuIcon}`}
