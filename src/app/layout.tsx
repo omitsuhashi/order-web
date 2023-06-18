@@ -1,5 +1,6 @@
-import '../styles/globals.scss';
+import '@/styles/globals.scss';
 import Script from 'next/script';
+import { PropsWithChildren } from 'react';
 
 export const metadata = {
   title: 'Create Next App',
@@ -7,11 +8,7 @@ export const metadata = {
   viewport: 'width=device-width, initial-scale=1',
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: PropsWithChildren) {
   return (
     <html lang='ja'>
       <Script

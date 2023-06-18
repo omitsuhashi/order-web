@@ -1,9 +1,6 @@
 @use '../variables';
 
 .container {
-  position: absolute;
-  inset: 0;
-  overflow: auto;
 }
 
 .close {
@@ -31,14 +28,10 @@
   background: variables.$menu-color;
   // TODO handle direction
   transform: translateX(100%);
-  transition: transform .6s cubic-bezier(0.215, 0.61, 0.355, 1);
+  transition: transform .6s variables.$bezier-transition;
 }
 
 .background {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  transition: background .6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .drawerActivator:checked {
@@ -50,11 +43,7 @@
   }
 
   ~ .background {
-    background-color: rgba(10,10,10,.86);
   }
-}
-
-.drawerActivator {
 }
 
 .lr {
