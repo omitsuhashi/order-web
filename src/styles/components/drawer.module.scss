@@ -6,6 +6,17 @@
   overflow: auto;
 }
 
+.close {
+  z-index: variables.$drawer-z-index - 1;
+  inset: 0;
+  pointer-events: none;
+  transition: background-color .6s;
+}
+
+.drawerActivator {
+  display: none;
+}
+
 .drawer {
   z-index: variables.$drawer-z-index;
   position: fixed;
@@ -13,7 +24,7 @@
   top: 0;
   // TODO handle direction
   right: 0;
-  // pass 'width' with props
+  // TODO pass 'width' with props
   width: 12rem;
   height: 100%;
   box-sizing: border-box;
@@ -23,8 +34,24 @@
   transition: transform .6s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
-.drawerActivator:checked ~ .drawer {
-  transform: none;
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  transition: background .6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.drawerActivator:checked {
+  ~ .drawer {
+    transform: none;
+  }
+  ~ .close {
+    pointer-events: auto;
+  }
+
+  ~ .background {
+    background-color: rgba(10,10,10,.86);
+  }
 }
 
 .drawerActivator {

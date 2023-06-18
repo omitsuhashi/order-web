@@ -28,6 +28,7 @@ export type StoreArgs = {
 
 export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
+  const [showCategory, setShowCategory] = useState<boolean>(false);
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
 
   const { data, error } = useSWR<Array<MenuItemType>>(
@@ -64,13 +65,13 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         {items}
       </div>
 
-      <Drawer>
-        <span>test</span>
+      <Drawer isShowing={showCategory}>
+        <span onClick={() => setShowCategory(false)}>test</span>
       </Drawer>
 
       <span
         className={`icon is-large has-background-link-light ${styles.menuIcon}`}
-        onClick={() => setOpenCartModal(true)}
+        onClick={() => setShowCategory(true)}
         data-testid={ORDER_TEST_ID.OPEN_CART_MODAL_BUTTON}
       >
         <i className='fas fa-lg fa-solid fa-bars has-text-link-dark'></i>
