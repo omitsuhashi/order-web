@@ -65,8 +65,8 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         {items}
       </div>
 
-      <Drawer isShowing={showCategory}>
-        <span onClick={() => setShowCategory(false)}>test</span>
+      <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
+        <span>test</span>
       </Drawer>
 
       <span

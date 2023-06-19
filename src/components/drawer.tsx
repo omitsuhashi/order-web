@@ -4,14 +4,16 @@ import styles from '@/styles/components/drawer.module.scss';
 type DirectionType = 'lr' | 'rl';
 
 type Props = {
-  isShowing?: boolean;
+  isShowing: boolean;
+  onClose: () => void;
   direction?: DirectionType;
   width?: string | number;
 };
 
 export default function Drawer({
   children,
-  isShowing = false,
+  isShowing,
+  onClose,
   direction = 'lr',
 }: PropsWithChildren<Props>) {
   return (
@@ -22,8 +24,7 @@ export default function Drawer({
           className={`${styles.drawerActivator}`}
           checked={isShowing}
         />
-        <div className={`${styles.background}`}></div>
-        <div className={`${styles.close}`}></div>
+        <div className={`${styles.background}`} onClick={onClose}></div>
         <nav
           className={`${styles.drawer} ${direction === 'lr' ? styles.lr : ''}`}
         >
