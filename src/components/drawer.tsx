@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import styles from '@/styles/components/drawer.module.scss';
+import { COMPONENT_TEST_ID } from '@/constants/testid';
 
 type DirectionType = 'lr' | 'rl';
 
@@ -18,7 +19,10 @@ export default function Drawer({
 }: PropsWithChildren<Props>) {
   return (
     <>
-      <div className={`${styles.container}`}>
+      <div
+        className={`${styles.container}`}
+        data-testid={COMPONENT_TEST_ID.DRAWER}
+      >
         <input
           type='checkbox'
           className={`${styles.drawerActivator}`}
