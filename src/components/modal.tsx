@@ -1,4 +1,5 @@
 import { PropsWithChildren } from 'react';
+import '@/styles/components/modal.scss';
 
 type Props = {
   isActive: boolean;

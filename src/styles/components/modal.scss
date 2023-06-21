@@ -1,0 +1,21 @@
+@keyframes fadeIn {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+
+.modal.is-active {
+  animation: fadeIn .3s;
+  opacity: 100;
+}
