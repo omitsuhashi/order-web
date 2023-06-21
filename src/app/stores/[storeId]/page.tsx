@@ -12,6 +12,7 @@ import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/app/stores/[storeId]/_detail';
 import Cart from '@/app/stores/[storeId]/_cart';
 import Drawer from '@/components/drawer';
+import Category from '@/app/stores/[storeId]/_category';
 
 type Params = {
   storeId: string | number;
@@ -66,7 +67,16 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       </div>
 
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
-        <span>test</span>
+        <div className={styles.category}>
+          <Category
+            items={[
+              {
+                genre: 't',
+                children: [{ label: 't', action: () => {}, isActive: false }],
+              },
+            ]}
+          />
+        </div>
       </Drawer>
 
       <span
