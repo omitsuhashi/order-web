@@ -26,7 +26,7 @@ export default function Drawer({
         <input
           type='checkbox'
           className={`${styles.drawerActivator}`}
-          checked={isShowing}
+          defaultChecked={isShowing}
         />
         <div className={`${styles.background}`} onClick={onClose}></div>
         <nav

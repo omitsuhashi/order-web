@@ -71,10 +71,14 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
           <Category
             items={[
               {
-                genre: 't',
-                children: [{ label: 't', action: () => {}, isActive: false }],
+                genre: '飲み物',
+                children: [
+                  { id: 1, label: 'ビール' },
+                  { id: 2, label: 'カクテル' },
+                ],
               },
             ]}
+            currentId={1}
           />
         </div>
       </Drawer>
