@@ -19,7 +19,11 @@ export default function MenuItem({ item }: PropsWithoutRef<Props>) {
         data-testid={ORDER_TEST_ID.MENU_ITEM_COMPONENT}
       >
         {cartItem !== undefined && (
-          <p className={styles.badge}>{cartItem.quantity}</p>
+          <span
+            className={`${styles.badge} has-background-success has-text-white`}
+          >
+            {cartItem.quantity}
+          </span>
         )}
         <figure>
           <Image

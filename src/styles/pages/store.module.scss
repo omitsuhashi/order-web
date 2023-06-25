@@ -37,10 +37,15 @@
 
 .itemContainer {
   position: relative;
+
+  .badge {
+    position: absolute;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    top: 0;
+    right: 0;
+    text-align: center;
+  }
 }
 
-.badge {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
