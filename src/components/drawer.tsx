@@ -5,7 +5,7 @@ import { COMPONENT_TEST_ID } from '@/constants/testid';
 type DirectionType = 'lr' | 'rl';
 
 type Props = {
-  isShowing: boolean;
+  readonly isShowing: boolean;
   onClose: () => void;
   direction?: DirectionType;
   width?: string | number;
@@ -26,7 +26,8 @@ export default function Drawer({
         <input
           type='checkbox'
           className={`${styles.drawerActivator}`}
-          defaultChecked={isShowing}
+          checked={isShowing}
+          onChange={() => {}}
         />
         <div className={`${styles.background}`} onClick={onClose}></div>
         <nav
