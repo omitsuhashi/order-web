@@ -6,20 +6,22 @@ import MenuItem from '@/app/stores/[storeId]/_item';
 import styles from '@/styles/pages/store.module.scss';
 import Modal from '@/components/modal';
 import { useState } from 'react';
-import { MenuItemType } from '@/types/order';
+import { CategoryType, MenuItemType, MenuType } from '@/types/order';
 import Loading from '@/components/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/app/stores/[storeId]/_detail';
 import Cart from '@/app/stores/[storeId]/_cart';
 import Drawer from '@/components/drawer';
 import Category from '@/app/stores/[storeId]/_category';
+import { ID } from '@/types';
 
 type Params = {
-  storeId: string | number;
+  storeId: ID;
 };
 
 type SearchParams = {
-  sid?: string;
+  sid?: ID;
+  genreId?: ID;
 };
 
 export type StoreArgs = {
@@ -31,12 +33,16 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
+  const [genreId, setGenreId] = useState<ID>();
 
-  const { data, error } = useSWR<Array<MenuItemType>>(
-    STORE_API.getAll(params.storeId),
+  const { data: categories, error: categoryError } = useSWR<
+    Array<CategoryType>
+  >(STORE_API.getGenreList(params.storeId));
+  const { data: menu, error: menuError } = useSWR<MenuType>(
+    STORE_API.getMenu(params.storeId, searchParams.genreId),
   );
-  if (error) return <p>Error</p>;
-  if (!data) return <Loading />;
+  if (menuError || categoryError) return <p>Error</p>;
+  if (!menu) return <Loading />;
 
   const onCloseOrderDetailModal = () => {
     setDetailTarget(undefined);
@@ -46,7 +52,8 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
     setDetailTarget(item);
   };
 
-  const items = data.map((item, idx) => {
+  setGenreId(menu.genreId);
+  const items = menu.items.map((item, idx) => {
     return (
       <div
         className={`column is-half-mobile is-one-quarter-tablet ${styles.item}`}
@@ -68,18 +75,11 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
 
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
         <div className={styles.category}>
-          <Category
-            items={[
-              {
-                genre: '飲み物',
-                children: [
-                  { id: 1, label: 'ビール' },
-                  { id: 2, label: 'カクテル' },
-                ],
-              },
-            ]}
-            currentId={1}
-          />
+          {categories ? (
+            <Category items={categories} currentId={genreId} />
+          ) : (
+            <Loading />
+          )}
         </div>
       </Drawer>
 
@@ -121,7 +121,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         testId={ORDER_TEST_ID.CART_MODAL}
       >
         <Cart
-          props={{ menuItems: data }}
+          props={{ menuItems: menu.items }}
           params={params}
           searchParams={searchParams}
         />

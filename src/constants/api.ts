@@ -1,16 +1,20 @@
+import { ID } from '@/types';
+
 const BASE = '/api';
 
 export const TASK_API = {
-  getById: (taskId: string) => `${BASE}/tasks/${taskId}`,
+  getById: (taskId: ID) => `${BASE}/tasks/${taskId}`,
   getAll: `${BASE}/tasks`,
 };
 
 export const PROJECT_API = {
   getAll: `${BASE}/projects`,
-  getById: (projectId: string) => `${BASE}/projects/${projectId}`,
+  getById: (projectId: ID) => `${BASE}/projects/${projectId}`,
 };
 
 export const STORE_API = {
-  getAll: (storeId: string | number) => `${BASE}/stores/${storeId}`,
-  order: (storeId: string | number) => `${BASE}/stores/${storeId}`,
+  getMenu: (storeId: ID, genreId?: ID) =>
+    `${BASE}/stores/${storeId}/menu?genre=${genreId}`,
+  order: (storeId: ID) => `${BASE}/stores/${storeId}`,
+  getGenreList: (storeId: ID) => `${BASE}/stores/${storeId}/genre`,
 };

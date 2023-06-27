@@ -1,18 +1,10 @@
 import { PropsWithoutRef } from 'react';
-
-type CategoryItemType = {
-  id: number;
-  label: string;
-};
-
-type CategoryType = {
-  genre: string;
-  children: Array<CategoryItemType>;
-};
+import { CategoryType } from '@/types/order';
+import { ID } from '@/types';
 
 type Props = {
   items: Array<CategoryType>;
-  currentId: number;
+  currentId?: ID;
 };
 
 export default function Category({ items, currentId }: PropsWithoutRef<Props>) {
