@@ -4,14 +4,14 @@ import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
 import MenuItem from '@/app/stores/[storeId]/_item';
 import styles from '@/styles/pages/store.module.scss';
-import Modal from '@/components/modal';
+import Modal from '@/components/atom/modal';
 import { useState } from 'react';
 import { CategoryType, MenuItemType, MenuType } from '@/types/order';
-import Loading from '@/components/loading';
+import Loading from '@/components/atom/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/app/stores/[storeId]/_detail';
 import Cart from '@/app/stores/[storeId]/_cart';
-import Drawer from '@/components/drawer';
+import Drawer from '@/components/atom/drawer';
 import Category from '@/app/stores/[storeId]/_category';
 import { ID } from '@/types';
 

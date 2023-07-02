@@ -3,7 +3,7 @@ import { CartItemType, MenuItemType } from '@/types/order';
 import { ChangeEvent, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CartSelector, CartState } from '@/stores/order/cart';
-import Select, { OptionType } from '@/components/select';
+import Select, { OptionType } from '@/components/atom/select';
 
 type Props = {
   menuItem: MenuItemType;
