@@ -2,17 +2,17 @@
 
 import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
-import MenuItem from '@/app/stores/[storeId]/_item';
+import MenuItem from '@/components/organisms/order/item';
 import styles from '@/styles/pages/store.module.scss';
-import Modal from '@/components/atom/modal';
+import Modal from '@/components/atoms/modal';
 import { useState } from 'react';
 import { CategoryType, MenuItemType, MenuType } from '@/types/order';
-import Loading from '@/components/atom/loading';
+import Loading from '@/components/atoms/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import MenuItemDetail from '@/app/stores/[storeId]/_detail';
-import Cart from '@/app/stores/[storeId]/_cart';
-import Drawer from '@/components/atom/drawer';
-import Category from '@/app/stores/[storeId]/_category';
+import MenuItemDetail from '@/components/organisms/order/detail';
+import Cart from '@/components/organisms/order/cart';
+import Drawer from '@/components/atoms/drawer';
+import Category from '@/components/organisms/order/category';
 import { ID } from '@/types';
 
 type Params = {
