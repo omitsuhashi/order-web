@@ -1,5 +1,5 @@
 import { PropsWithoutRef } from 'react';
-import { CategoryType } from '@/types/order';
+import { CategoryType } from '@/types/store/order';
 import { ID } from '@/types';
 
 type Props = {

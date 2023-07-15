@@ -1,5 +1,5 @@
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import { CartItemType, MenuItemType } from '@/types/order';
+import { CartItemType, MenuItemType } from '@/types/store/order';
 import { ChangeEvent, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { CartSelector, CartState } from '@/stores/order/cart';

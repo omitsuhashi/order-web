@@ -1,5 +1,5 @@
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import { MenuItemType } from '@/types/order';
+import { MenuItemType } from '@/types/store/order';
 import axiosInstance from '@/libs/axios';
 import { STORE_API } from '@/constants/api';
 import axios from 'axios';

@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { STORE_API } from '@/constants/api';
 import { generateRandomNumber, generateRandomString } from '@/mocks/api/util';
-import { CategoryType, MenuItemType, MenuType } from '@/types/order';
+import { CategoryType, MenuItemType, MenuType } from '@/types/store/order';
 
 const orderMocks = [
   rest.get(STORE_API.getMenu(1), (req, res, context) => {

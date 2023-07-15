@@ -1,17 +1,16 @@
 import { PropsWithoutRef } from 'react';
 import Image from 'next/image';
-import { MenuItemType } from '@/types/order';
+import { MenuItemType } from '@/types/store/order';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import styles from '@/styles/pages/store.module.scss';
-import { useRecoilValue } from 'recoil';
-import { CartSelector } from '@/stores/order/cart';
+import { useCartItem } from '@/hooks/store/order/cart';
 
 type Props = {
   item: MenuItemType;
 };
 
 export default function MenuItem({ item }: PropsWithoutRef<Props>) {
-  const cartItem = useRecoilValue(CartSelector(item.id));
+  const cartItem = useCartItem();
   return (
     <>
       <div

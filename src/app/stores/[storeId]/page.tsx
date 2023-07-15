@@ -6,7 +6,7 @@ import MenuItem from '@/components/organisms/order/item';
 import styles from '@/styles/pages/store.module.scss';
 import Modal from '@/components/atoms/modal';
 import { useState } from 'react';
-import { CategoryType, MenuItemType, MenuType } from '@/types/order';
+import { CategoryType, MenuItemType, MenuType } from '@/types/store/order';
 import Loading from '@/components/atoms/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/components/organisms/order/detail';
