@@ -6,6 +6,7 @@ export function useCartItem(): CartItemType | undefined {
 
 type ResetCartFunctionType = () => Promise<void>;
 
-export function useCart(): [Array<CartItemType>, ResetCartFunctionType] {
-  return [[], () => new Promise((resolve) => resolve())];
+export function useCart(): [CartItemType, ResetCartFunctionType] {
+  const resetCart = () => new Promise<void>((resolve) => resolve());
+  return [new Map(), resetCart];
 }
