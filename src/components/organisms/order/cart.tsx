@@ -4,8 +4,7 @@ import axiosInstance from '@/libs/axios';
 import { STORE_API } from '@/constants/api';
 import axios from 'axios';
 import { StoreArgs } from '@/app/stores/[storeId]/page';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { CartState } from '@/stores/order/cart';
+import { useCart } from '@/hooks/store/order/cart';
 
 type Props = {
   menuItems: Array<MenuItemType>;
@@ -16,16 +15,12 @@ type Args = {
 } & StoreArgs;
 
 export default function Cart({ params }: Args) {
-  const cart = useRecoilValue(CartState);
-  // const items = cart.map(
-  //   (c) => props.menuItems.find((v) => v.id === c.menuId)?.name,
-  // );
-  const resetCart = useResetRecoilState(CartState);
+  const [cart, resetCart] = useCart();
 
   const onClickOrder = async () => {
     try {
       await axiosInstance.post(STORE_API.order(params.storeId), cart);
-      resetCart();
+      await resetCart();
     } catch (e) {
       if (axios.isAxiosError(e)) {
       } else {

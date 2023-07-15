@@ -1,12 +1,12 @@
 import { ID } from '@/types';
 
 export type CartItemType = {
-  menuId: number;
+  menuId: ID;
   quantity: number;
 };
 
 export type MenuItemType = {
-  id: number;
+  id: ID;
   name: string;
   price: number;
   description?: string;
