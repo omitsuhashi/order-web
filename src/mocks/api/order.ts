@@ -48,14 +48,14 @@ const orderMocks = [
   rest.get(STORE_API.getGenreList(10), (req, res, context) => {
     const result: Array<CategoryType> = [
       {
-        genre: '飲み物',
+        label: '飲み物',
         children: [
           { id: 1, label: 'ビール' },
           { id: 2, label: 'カクテル' },
         ],
       },
       {
-        genre: '食べ物',
+        label: '食べ物',
         children: [
           {
             id: 3,

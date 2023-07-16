@@ -10,7 +10,7 @@ type Props = {
 export default function Category({ items, currentId }: PropsWithoutRef<Props>) {
   const categories = items.map((v, parentIndex) => (
     <div key={parentIndex}>
-      <p className='menu-label'>{v.genre}</p>
+      <p className='menu-label'>{v.label}</p>
       <ul className='menu-list'>
         {v.children.map((child, index) => (
           <li key={index}>

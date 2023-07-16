@@ -20,6 +20,13 @@ export type CategoryItemType = {
 };
 
 export type CategoryType = {
-  genre: string;
+  label: string;
   children: Array<CategoryItemType>;
+};
+
+export type StoreInfoType = {
+  id: ID;
+  name: string;
+  categories: Array<CategoryType>;
+  defaultCategoryId: ID;
 };

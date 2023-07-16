@@ -2,11 +2,10 @@
 
 import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
-import MenuItem from '@/components/organisms/order/item';
 import styles from '@/styles/pages/store.module.scss';
 import Modal from '@/components/atoms/modal';
 import { useState } from 'react';
-import { CategoryType, MenuItemType, MenuType } from '@/types/store/order';
+import { MenuItemType, StoreInfoType } from '@/types/store/order';
 import Loading from '@/components/atoms/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/components/organisms/order/detail';
@@ -14,6 +13,7 @@ import Cart from '@/components/organisms/order/cart';
 import Drawer from '@/components/atoms/drawer';
 import Category from '@/components/organisms/order/category';
 import { ID } from '@/types';
+import Menu from '@/components/organisms/order/menu';
 
 type Params = {
   storeId: ID;
@@ -21,7 +21,7 @@ type Params = {
 
 type SearchParams = {
   sid?: ID;
-  genreId?: ID;
+  genreId: ID;
 };
 
 export type StoreArgs = {
@@ -35,48 +35,34 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
   const [genreId, setGenreId] = useState<ID>();
 
-  const { data: categories, error: categoryError } = useSWR<
-    Array<CategoryType>
-  >(STORE_API.getGenreList(params.storeId));
-  const { data: menu, error: menuError } = useSWR<MenuType>(
-    STORE_API.getMenu(params.storeId, searchParams.genreId),
+  const { data, error, isLoading } = useSWR<StoreInfoType>(
+    STORE_API.info(params.storeId),
   );
-  if (menuError || categoryError) return <p>Error</p>;
-  if (!menu) return <Loading />;
+  if (error) return <p>Error</p>;
+  if (isLoading) return <Loading />;
 
   const onCloseOrderDetailModal = () => {
     setDetailTarget(undefined);
   };
 
-  const onClickItem = (item: MenuItemType) => {
-    setDetailTarget(item);
-  };
+  // const onClickItem = (item: MenuItemType) => {
+  //   setDetailTarget(item);
+  // };
 
-  setGenreId(menu.genreId);
-  const items = menu.items.map((item, idx) => {
-    return (
-      <div
-        className={`column is-half-mobile is-one-quarter-tablet ${styles.item}`}
-        key={idx}
-        onClick={() => onClickItem(item)}
-      >
-        <MenuItem item={item} />
-      </div>
-    );
-  });
+  setGenreId(data?.defaultCategoryId);
 
   return (
     <>
       <div
         className={`columns is-multiline is-centered is-mobile mt-2 ${styles.storeColumns}`}
       >
-        {items}
+        <Menu storeId={params.storeId} genreId={searchParams.genreId} />
       </div>
 
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
         <div className={styles.category}>
-          {categories ? (
-            <Category items={categories} currentId={genreId} />
+          {data?.categories ? (
+            <Category items={data.categories} currentId={genreId} />
           ) : (
             <Loading />
           )}
@@ -121,7 +107,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         testId={ORDER_TEST_ID.CART_MODAL}
       >
         <Cart
-          props={{ menuItems: menu.items }}
+          props={{ menuItems: [] }}
           params={params}
           searchParams={searchParams}
         />

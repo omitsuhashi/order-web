@@ -16,5 +16,5 @@ export const STORE_API = {
   getMenu: (storeId: ID, genreId?: ID) =>
     `${BASE}/stores/${storeId}/menu?genre=${genreId}`,
   order: (storeId: ID) => `${BASE}/stores/${storeId}`,
-  getGenreList: (storeId: ID) => `${BASE}/stores/${storeId}/genre`,
+  info: (storeId: ID) => `${BASE}/stores/${storeId}`,
 };

@@ -21,7 +21,7 @@ export default function MenuItem({ item }: PropsWithoutRef<Props>) {
           <span
             className={`${styles.badge} has-background-success has-text-white`}
           >
-            {cartItem.quantity}
+            {cartItem.get(item.id)}
           </span>
         )}
         <figure>
