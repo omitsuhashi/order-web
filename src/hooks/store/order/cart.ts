@@ -1,7 +1,12 @@
-import { CartItemType } from '@/types/store/order';
+import {
+  CartItemInfoType,
+  CartItemType,
+  MenuItemType,
+} from '@/types/store/order';
 
-export function useCartItem(): CartItemType {
-  return new Map();
+export function useCartItem(item: MenuItemType): CartItemInfoType | undefined {
+  console.info(item);
+  return undefined;
 }
 
 type ResetCartFunctionType = () => Promise<void>;

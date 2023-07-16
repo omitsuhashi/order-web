@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function MenuItem({ item }: PropsWithoutRef<Props>) {
-  const cartItem = useCartItem();
+  const cartItem = useCartItem(item);
   return (
     <>
       <div
@@ -21,7 +21,7 @@ export default function MenuItem({ item }: PropsWithoutRef<Props>) {
           <span
             className={`${styles.badge} has-background-success has-text-white`}
           >
-            {cartItem.get(item.id)}
+            {cartItem.quantity}
           </span>
         )}
         <figure>

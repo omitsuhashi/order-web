@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import { MenuType } from '@/types/store/order';
+import { MenuItemType } from '@/types/store/order';
 import { STORE_API } from '@/constants/api';
 import { ID } from '@/types';
 import { PropsWithoutRef } from 'react';
@@ -9,18 +9,18 @@ import Loading from '@/components/atoms/loading';
 
 type Props = {
   storeId: ID;
-  genreId: ID;
+  genreId?: ID;
 };
 
 export default function Menu({ storeId, genreId }: PropsWithoutRef<Props>) {
-  const { data, error, isLoading } = useSWR<MenuType>(
+  const { data, error, isLoading } = useSWR<Array<MenuItemType>>(
     STORE_API.getMenu(storeId, genreId),
   );
 
   if (isLoading) return <Loading />;
   if (error) return <p>Error</p>;
 
-  return data?.items.map((item, idx) => {
+  return data?.map((item, idx) => {
     return (
       <div
         className={`column is-half-mobile is-one-quarter-tablet ${styles.item}`}

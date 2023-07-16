@@ -14,7 +14,7 @@ export const PROJECT_API = {
 
 export const STORE_API = {
   getMenu: (storeId: ID, genreId?: ID) =>
-    `${BASE}/stores/${storeId}/menu?genre=${genreId}`,
-  order: (storeId: ID) => `${BASE}/stores/${storeId}`,
-  info: (storeId: ID) => `${BASE}/stores/${storeId}`,
+    `/stores/${storeId}/menu?genre=${genreId}`,
+  order: (storeId: ID) => `/stores/${storeId}`,
+  storeInfo: (storeId: ID) => `/stores/${storeId}`,
 };

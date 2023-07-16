@@ -1,7 +1,7 @@
 import { rest } from 'msw';
 import { STORE_API } from '@/constants/api';
 import { generateRandomNumber, generateRandomString } from '@/mocks/api/util';
-import { CategoryType, MenuItemType, MenuType } from '@/types/store/order';
+import { CategoryType, MenuItemType, StoreInfoType } from '@/types/store/order';
 
 const orderMocks = [
   rest.get(STORE_API.getMenu(1), (req, res, context) => {
@@ -22,13 +22,20 @@ const orderMocks = [
         price: 500,
       },
     ];
-    const result: MenuType = {
-      items,
-      genreId: 3,
-    };
-    return res(context.json(result));
+    return res(context.json(items));
   }),
   rest.get(STORE_API.getMenu(10), (req, res, context) => {
+    const result = Array.from({ length: 10 }).map((_, idx): MenuItemType => {
+      return {
+        id: idx + 1,
+        name: generateRandomString(5),
+        description: generateRandomString(100),
+        price: generateRandomNumber(10000),
+      };
+    });
+    return res(context.json(result));
+  }),
+  rest.get(STORE_API.getMenu(10, 10), (req, res, context) => {
     const result = Array.from({ length: 10 }).map((_, idx): MenuItemType => {
       return {
         id: idx + 1,
@@ -45,8 +52,8 @@ const orderMocks = [
   rest.post(STORE_API.order('error'), (req, res, context) => {
     return res(context.status(400));
   }),
-  rest.get(STORE_API.getGenreList(10), (req, res, context) => {
-    const result: Array<CategoryType> = [
+  rest.get(STORE_API.storeInfo(10), (req, res, context) => {
+    const categories: Array<CategoryType> = [
       {
         label: '飲み物',
         children: [
@@ -68,6 +75,12 @@ const orderMocks = [
         ],
       },
     ];
+    const result: StoreInfoType = {
+      categories,
+      name: 'テスト',
+      id: 1,
+      defaultCategoryId: 10,
+    };
     return res(context.status(200), context.json(result));
   }),
 ];

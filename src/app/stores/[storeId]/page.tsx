@@ -21,7 +21,7 @@ type Params = {
 
 type SearchParams = {
   sid?: ID;
-  genreId: ID;
+  genreId?: ID;
 };
 
 export type StoreArgs = {
@@ -33,13 +33,13 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
-  const [genreId, setGenreId] = useState<ID>();
 
   const { data, error, isLoading } = useSWR<StoreInfoType>(
-    STORE_API.info(params.storeId),
+    STORE_API.storeInfo(params.storeId),
   );
-  if (error) return <p>Error</p>;
   if (isLoading) return <Loading />;
+  if (error) return <p>Error</p>;
+  searchParams.genreId = data?.defaultCategoryId;
 
   const onCloseOrderDetailModal = () => {
     setDetailTarget(undefined);
@@ -48,8 +48,6 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   // const onClickItem = (item: MenuItemType) => {
   //   setDetailTarget(item);
   // };
-
-  setGenreId(data?.defaultCategoryId);
 
   return (
     <>
@@ -62,7 +60,10 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
         <div className={styles.category}>
           {data?.categories ? (
-            <Category items={data.categories} currentId={genreId} />
+            <Category
+              items={data.categories}
+              currentId={searchParams.genreId}
+            />
           ) : (
             <Loading />
           )}
