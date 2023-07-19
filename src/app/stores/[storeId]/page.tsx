@@ -21,7 +21,7 @@ type Params = {
 
 type SearchParams = {
   sid?: ID;
-  genreId?: ID;
+  categoryId?: ID;
 };
 
 export type StoreArgs = {
@@ -39,7 +39,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   );
   if (isLoading) return <Loading />;
   if (error) return <p>Error</p>;
-  searchParams.genreId = data?.defaultCategoryId;
+  searchParams.categoryId = data?.defaultCategoryId;
 
   const onCloseOrderDetailModal = () => {
     setDetailTarget(undefined);
@@ -54,7 +54,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
       <div
         className={`columns is-multiline is-centered is-mobile mt-2 ${styles.storeColumns}`}
       >
-        <Menu storeId={params.storeId} genreId={searchParams.genreId} />
+        <Menu storeId={params.storeId} genreId={searchParams.categoryId} />
       </div>
 
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
@@ -62,7 +62,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
           {data?.categories ? (
             <Category
               items={data.categories}
-              currentId={searchParams.genreId}
+              currentId={searchParams.categoryId}
             />
           ) : (
             <Loading />
