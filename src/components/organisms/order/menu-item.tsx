@@ -10,7 +10,7 @@ type Props = {
 };
 
 export default function MenuItem({ item }: PropsWithoutRef<Props>) {
-  const cartItem = useCartItem(item);
+  const [cartItem] = useCartItem(item);
   return (
     <>
       <div

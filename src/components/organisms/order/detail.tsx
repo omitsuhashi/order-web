@@ -1,9 +1,8 @@
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import { CartItemType, MenuItemType } from '@/types/store/order';
-import { ChangeEvent, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { CartSelector, CartState } from '@/stores/order/cart';
+import { MenuItemType } from '@/types/store/order';
+import { ChangeEvent } from 'react';
 import Select, { OptionType } from '@/components/atoms/select';
+import { useCartItem } from '@/hooks/store/order/cart';
 
 type Props = {
   menuItem: MenuItemType;
@@ -11,32 +10,16 @@ type Props = {
 };
 
 export default function MenuItemDetail({ menuItem, onClickOrder }: Props) {
-  const [, setCart] = useRecoilState(CartState);
-  const cartItem = useRecoilValue(CartSelector(menuItem.id));
-  const [quantity, setQuantity] = useState(cartItem?.quantity ?? 1);
+  const [cartItem] = useCartItem(menuItem);
   const isEdit = cartItem !== undefined;
 
   const onClickUpdateCart = () => {
-    const item: CartItemType = {
-      menuId: menuItem.id,
-      quantity,
-    };
-    if (isEdit) {
-      setCart((currVal) => {
-        const idx = currVal.indexOf(cartItem);
-        const result = [...currVal];
-        result[idx] = item;
-        return result;
-      });
-    } else {
-      setCart((currVal) => currVal.concat(item));
-    }
     onClickOrder();
   };
 
   const onSelectQuantity = (ev: ChangeEvent<HTMLSelectElement>) => {
     const quantity = Number(ev.target.value);
-    setQuantity(quantity);
+    console.info(quantity);
   };
 
   const options: Array<OptionType<number>> = new Array(10)
@@ -57,7 +40,7 @@ export default function MenuItemDetail({ menuItem, onClickOrder }: Props) {
         textLabel='個数'
         options={options}
         onChange={onSelectQuantity}
-        defaultValue={quantity}
+        defaultValue={cartItem?.quantity ?? 1}
       />
       <button
         className='button is-outlined'

@@ -15,7 +15,6 @@
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "recoil": "^0.7.7",
     "recoil-sync": "^0.2.0",
     "swr": "^2.1.5"
   },
@@ -41,6 +40,5 @@
   "msw": {
     "workerDirectory": "public"
   },
-  "resolutions": {
-  }
+  "resolutions": {}
 }

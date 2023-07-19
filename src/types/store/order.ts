@@ -1,8 +1,8 @@
 import { ID } from '@/types';
 
-export type CartItemInfoType = { quantity: number };
+export type CartItemType = { quantity: number };
 
-export type CartItemType = Map<ID, CartItemInfoType>;
+export type CartType = Map<ID, CartItemType>;
 
 export type MenuItemType = {
   id: ID;
