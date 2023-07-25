@@ -1,25 +1,29 @@
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
-import { MenuItemType } from '@/types/store/order';
-import { ChangeEvent } from 'react';
+import { CartItemType, MenuItemType, OnOrderFunc } from '@/types/store/order';
+import { ChangeEvent, useState } from 'react';
 import Select, { OptionType } from '@/components/atoms/select';
-import { useCartItem } from '@/hooks/store/order/cart';
 
 type Props = {
   menuItem: MenuItemType;
-  onClickOrder: () => void;
+  onClickOrder: OnOrderFunc;
+  cartItem?: CartItemType;
 };
 
-export default function MenuItemDetail({ menuItem, onClickOrder }: Props) {
-  const [cartItem] = useCartItem(menuItem);
+export default function MenuItemDetail({
+  menuItem,
+  onClickOrder,
+  cartItem,
+}: Props) {
+  const [quantity, setQuantity] = useState(1);
   const isEdit = cartItem !== undefined;
 
-  const onClickUpdateCart = () => {
-    onClickOrder();
+  const onClickUpdateCart = async () => {
+    await onClickOrder(menuItem.id, { quantity });
   };
 
   const onSelectQuantity = (ev: ChangeEvent<HTMLSelectElement>) => {
     const quantity = Number(ev.target.value);
-    console.info(quantity);
+    setQuantity(quantity);
   };
 
   const options: Array<OptionType<number>> = new Array(10)

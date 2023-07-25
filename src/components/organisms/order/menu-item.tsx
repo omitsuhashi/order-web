@@ -1,16 +1,15 @@
 import { PropsWithoutRef } from 'react';
 import Image from 'next/image';
-import { MenuItemType } from '@/types/store/order';
+import { CartItemType, MenuItemType } from '@/types/store/order';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import styles from '@/styles/pages/store.module.scss';
-import { useCartItem } from '@/hooks/store/order/cart';
 
 type Props = {
   item: MenuItemType;
+  cartItem?: CartItemType;
 };
 
-export default function MenuItem({ item }: PropsWithoutRef<Props>) {
-  const [cartItem] = useCartItem(item);
+export default function MenuItem({ item, cartItem }: PropsWithoutRef<Props>) {
   return (
     <>
       <div

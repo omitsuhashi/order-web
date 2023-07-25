@@ -4,8 +4,13 @@ import useSWR from 'swr';
 import { STORE_API } from '@/constants/api';
 import styles from '@/styles/pages/store.module.scss';
 import Modal from '@/components/atoms/modal';
-import { useState } from 'react';
-import { MenuItemType, StoreInfoType } from '@/types/store/order';
+import { useReducer, useState } from 'react';
+import {
+  MenuItemType,
+  OnOrderFunc,
+  OnSelectMenuItemFunc,
+  StoreInfoType,
+} from '@/types/store/order';
 import Loading from '@/components/atoms/loading';
 import { ORDER_TEST_ID } from '@/constants/testid/stores';
 import MenuItemDetail from '@/components/organisms/order/detail';
@@ -14,6 +19,7 @@ import Drawer from '@/components/atoms/drawer';
 import Category from '@/components/organisms/order/category';
 import { ID } from '@/types';
 import Menu from '@/components/organisms/order/menu';
+import { cartReducer } from '@/hooks/store/order/cart';
 
 type Params = {
   storeId: ID;
@@ -33,6 +39,13 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
+  const [cart, cartDispatch] = useReducer(cartReducer, new Map());
+
+  const onOrder: OnOrderFunc = (id, item) => {
+    cartDispatch({ type: 'SET', payload: { id, item } });
+    setDetailTarget(undefined);
+    return new Promise(() => {});
+  };
 
   const { data, error, isLoading } = useSWR<StoreInfoType>(
     STORE_API.storeInfo(params.storeId),
@@ -45,16 +58,25 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
     setDetailTarget(undefined);
   };
 
-  // const onClickItem = (item: MenuItemType) => {
-  //   setDetailTarget(item);
-  // };
+  const onClickItem: OnSelectMenuItemFunc = (item) => {
+    setDetailTarget(item);
+  };
+  const resetCart = () => {
+    cartDispatch({ type: 'RESET' });
+    return new Promise<void>(() => {});
+  };
 
   return (
     <>
       <div
         className={`columns is-multiline is-centered is-mobile mt-2 ${styles.storeColumns}`}
       >
-        <Menu storeId={params.storeId} genreId={searchParams.categoryId} />
+        <Menu
+          storeId={params.storeId}
+          genreId={searchParams.categoryId}
+          onClickMenuItem={onClickItem}
+          cart={cart}
+        />
       </div>
 
       <Drawer isShowing={showCategory} onClose={() => setShowCategory(false)}>
@@ -94,7 +116,8 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         {detailTarget ? (
           <MenuItemDetail
             menuItem={detailTarget}
-            onClickOrder={() => setDetailTarget(undefined)}
+            onClickOrder={onOrder}
+            cartItem={cart.get(detailTarget.id)}
           />
         ) : (
           <p>invalid error</p>
@@ -108,7 +131,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
         testId={ORDER_TEST_ID.CART_MODAL}
       >
         <Cart
-          props={{ menuItems: [] }}
+          props={{ cart, resetCart }}
           params={params}
           searchParams={searchParams}
         />

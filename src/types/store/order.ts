@@ -4,6 +4,10 @@ export type CartItemType = { quantity: number };
 
 export type CartType = Map<ID, CartItemType>;
 
+export type OnOrderFunc = (id: ID, item: CartItemType) => Promise<void>;
+
+export type OnSelectMenuItemFunc = (item: MenuItemType) => void;
+
 export type MenuItemType = {
   id: ID;
   name: string;
