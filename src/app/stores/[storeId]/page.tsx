@@ -35,6 +35,8 @@ export type StoreArgs = {
   searchParams: SearchParams;
 };
 
+const CATEGORY_KEY: keyof SearchParams = 'categoryId';
+
 export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<boolean>(false);
@@ -85,6 +87,7 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
             <Category
               items={data.categories}
               currentId={searchParams.categoryId}
+              keyName={CATEGORY_KEY}
             />
           ) : (
             <Loading />

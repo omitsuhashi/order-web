@@ -52,5 +52,5 @@ export function useCartItem() {
     quantity;
     return new Promise((resolve) => resolve());
   };
-  return { cartItem, setCartItem };
+  return [cartItem, setCartItem] as const;
 }
