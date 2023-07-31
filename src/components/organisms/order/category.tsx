@@ -25,7 +25,11 @@ export default function Category({
       <ul className='menu-list'>
         {v.children.map((child, index) => (
           <li key={index} onClick={onClickCategory(child.id)}>
-            <a className={child.id === currentId ? 'is-active' : ''}>
+            <a
+              className={
+                child.id.toString() === currentId?.toString() ? 'is-active' : ''
+              }
+            >
               {child.label}
             </a>
           </li>

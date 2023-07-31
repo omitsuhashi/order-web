@@ -13,19 +13,19 @@ import Loading from '@/components/atoms/loading';
 
 type Props = {
   storeId: ID;
-  genreId?: ID;
+  categoryId?: ID;
   cart: CartType;
   onClickMenuItem: OnSelectMenuItemFunc;
 };
 
 function Menu({
   storeId,
-  genreId,
+  categoryId,
   onClickMenuItem,
   cart,
 }: PropsWithoutRef<Props>) {
   const { data, error, isLoading } = useSWR<Array<MenuItemType>>(
-    STORE_API.getMenu(storeId, genreId),
+    STORE_API.getMenu(storeId, categoryId),
   );
 
   if (isLoading) return <Loading />;
