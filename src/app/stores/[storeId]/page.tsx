@@ -20,7 +20,6 @@ import Category from '@/components/organisms/order/category';
 import { ID } from '@/types';
 import Menu from '@/components/organisms/order/menu';
 import { cartReducer } from '@/hooks/store/order/cart';
-import useQueryParams from '@/hooks/params';
 
 type Params = {
   storeId: ID;
@@ -36,14 +35,18 @@ export type StoreArgs = {
   searchParams: SearchParams;
 };
 
-const CATEGORY_KEY: keyof SearchParams = 'categoryId';
-
 export default function OrderIndex({ params, searchParams }: StoreArgs) {
   const [openCartModal, setOpenCartModal] = useState<boolean>(false);
   const [showCategory, setShowCategory] = useState<boolean>(false);
   const [detailTarget, setDetailTarget] = useState<MenuItemType>();
   const [cart, cartDispatch] = useReducer(cartReducer, new Map());
-  const [categoryId, setCategoryId] = useQueryParams(CATEGORY_KEY);
+  const [categoryId, setCategoryId] = useState<ID>();
+
+  const onClickCategoryItem = (categoryId: ID) => () => {
+    setCategoryId(categoryId);
+    setShowCategory(false);
+    return new Promise<void>(() => {});
+  };
 
   const onOrder: OnOrderFunc = (id, item) => {
     cartDispatch({ type: 'SET', payload: { id, item } });
@@ -92,8 +95,8 @@ export default function OrderIndex({ params, searchParams }: StoreArgs) {
           {data?.categories ? (
             <Category
               items={data.categories}
-              currentId={categoryId}
-              keyName={CATEGORY_KEY}
+              id={categoryId}
+              onClickCategoryItem={onClickCategoryItem}
             />
           ) : (
             <Loading />

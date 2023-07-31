@@ -1,33 +1,27 @@
-import { MouseEventHandler, PropsWithoutRef } from 'react';
+import { PropsWithoutRef } from 'react';
 import { CategoryType } from '@/types/store/order';
 import { ID } from '@/types';
-import useQueryParams from '@/hooks/params';
 
 type Props = {
   items: Array<CategoryType>;
-  currentId?: ID;
-  keyName: string;
+  id?: ID;
+  onClickCategoryItem: (categoryId: ID) => () => Promise<void>;
 };
 
 export default function Category({
   items,
-  currentId,
-  keyName,
+  id,
+  onClickCategoryItem,
 }: PropsWithoutRef<Props>) {
-  const [, setQueryParam] = useQueryParams(keyName);
-  const onClickCategory =
-    (categoryId: ID): MouseEventHandler<HTMLLIElement> | undefined =>
-    () =>
-      setQueryParam(categoryId);
   const categories = items.map((v, parentIndex) => (
     <div key={parentIndex}>
       <p className='menu-label'>{v.label}</p>
       <ul className='menu-list'>
         {v.children.map((child, index) => (
-          <li key={index} onClick={onClickCategory(child.id)}>
+          <li key={index} onClick={onClickCategoryItem(child.id)}>
             <a
               className={
-                child.id.toString() === currentId?.toString() ? 'is-active' : ''
+                child.id.toString() === id?.toString() ? 'is-active' : ''
               }
             >
               {child.label}
