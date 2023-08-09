@@ -13,12 +13,12 @@ afterEach(() => server.resetHandlers());
 describe('order', () => {
   describe('fetch order list', () => {
     it('should fetch items and render correctly', async () => {
-      testRender(<OrderIndex params={{ storeId: 'mock' }} searchParams={{}} />);
+      testRender(<OrderIndex params={{ storeId: 10 }} searchParams={{}} />);
       const element = await screen.findAllByTestId(
         ORDER_TEST_ID.MENU_ITEM_COMPONENT,
       );
       const size = element.length;
-      expect(size).toBe(3);
+      expect(size).toBe(10);
     });
   });
   describe('order items', () => {

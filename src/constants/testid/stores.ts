@@ -8,4 +8,5 @@ export const ORDER_TEST_ID = {
   MENU_ITEM_DETAIL_MODAL: 'menu-item-detail-modal',
   CART_MODAL: 'cart-modal',
   OPEN_CART_MODAL_BUTTON: 'open-cart-modal-button',
+  OPEN_CATEGORY_MODAL_BUTTON: 'open-category-modal-button',
 };
