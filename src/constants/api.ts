@@ -13,8 +13,8 @@ export const PROJECT_API = {
 };
 
 export const STORE_API = {
-  getMenu: (storeId: ID, genreId?: ID) =>
-    `/stores/${storeId}/menu?genre=${genreId}`,
+  getMenu: (storeId: ID, categoryId?: ID) =>
+    `/stores/${storeId}/menu?${categoryId ? `category=${categoryId}` : ''}`,
   order: (storeId: ID) => `/stores/${storeId}`,
   storeInfo: (storeId: ID) => `/stores/${storeId}`,
 };

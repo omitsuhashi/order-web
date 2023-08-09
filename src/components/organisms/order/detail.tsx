@@ -18,7 +18,7 @@ export default function MenuItemDetail({
   const isEdit = cartItem !== undefined;
 
   const onClickUpdateCart = async () => {
-    await onClickOrder(menuItem.id, { quantity });
+    await onClickOrder(menuItem.id, { quantity, menu: menuItem });
   };
 
   const onSelectQuantity = (ev: ChangeEvent<HTMLSelectElement>) => {

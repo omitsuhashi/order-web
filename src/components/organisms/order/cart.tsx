@@ -15,9 +15,12 @@ type Args = {
 } & StoreArgs;
 
 export default function Cart({ params, props: { cart, resetCart } }: Args) {
+  const cartItems = [...cart.values()];
   const onClickOrder = async () => {
     try {
-      await axiosInstance.post(STORE_API.order(params.storeId), cart);
+      await axiosInstance.post(STORE_API.order(params.storeId), [
+        ...cart.keys(),
+      ]);
       await resetCart();
     } catch (e) {
       if (axios.isAxiosError(e)) {
@@ -26,14 +29,22 @@ export default function Cart({ params, props: { cart, resetCart } }: Args) {
       }
     }
   };
+  const items = cartItems.map((v) => (
+    <>
+      <p>{v.menu.name}</p>
+    </>
+  ));
 
   return (
-    <button
-      className='button is-outlined'
-      onClick={onClickOrder}
-      data-testid={ORDER_TEST_ID.ORDER_BUTTON}
-    >
-      オーダー
-    </button>
+    <>
+      {items}
+      <button
+        className='button is-outlined'
+        onClick={onClickOrder}
+        data-testid={ORDER_TEST_ID.ORDER_BUTTON}
+      >
+        オーダー
+      </button>
+    </>
   );
 }
